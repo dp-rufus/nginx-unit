@@ -19,14 +19,14 @@ jobs:
           make build-python3.8 VERSION_python=3.8
 
       - name: registry auth
-        run: echo "${{github.token}}" | docker login https://docker.pkg.github.com -u ${{github.actor}} --password-stdin
+        run: echo "${{github.token}}" | docker login ghcr.io -u ${{github.actor}} --password-stdin
 
       - name: tag and push
         run: |
           cd unit
           source version
           TAG=${NXT_VERSION}-python3.8
-          IMAGE=docker.pkg.github.com/${{github.repository}}/unit
+          IMAGE=ghcr.io/${{github.repository}}
           docker tag unit:${TAG} ${IMAGE}:${TAG}
           docker tag unit:${TAG} ${IMAGE}:latest-python3.8
           docker push --all-tags ${IMAGE}
